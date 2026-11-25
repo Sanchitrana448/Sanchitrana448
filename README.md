@@ -24,9 +24,9 @@ Every project has a live demo, CI on every push, and a one-command evaluation th
 [Repo](https://github.com/Sanchitrana448/researchpilot-ai) · [Live demo](https://researchpilot-ai-yw7y.onrender.com) · ![tests](https://github.com/Sanchitrana448/researchpilot-ai/actions/workflows/ci.yml/badge.svg)
 
 - **Problem:** many RAG demos cite sources that do not exist or do not support the claim.
-- **What I built:** a 7-stage pipeline (planner, retrieval, ranking, contradiction check, synthesis, citation validator, quality control) that verifies every citation against the evidence actually retrieved, and refuses to answer when there is none.
-- **Result:** 8/8 retrieval hits and 0 invalid citations on a fixed eval; about 5 ms server-side.
-- **Honest limit:** TF-IDF retrieval, so it matches words, not meaning. Dense embeddings are the next step.
+- **What I built:** a 7-stage pipeline (planner, retrieval, ranking, contradiction check, synthesis, citation validator, quality control) with vector search over bge-small embeddings stored in Qdrant. It verifies every citation against the evidence actually retrieved, and refuses to answer when there is none.
+- **Result:** on the public BEIR SciFact benchmark (5,183 abstracts, 300 queries), NDCG@10 0.706 vs 0.652 for BM25 keyword search (+8.2%); 0 invalid citations; 26/26 off-topic questions refused.
+- **Honest limit:** cross-encoder re-ranking gave no gain on SciFact, so it is off; the off-topic threshold was set on a small hand-written set.
 
 ### 2. DocMind AI: document extraction that knows when it got it wrong
 [Repo](https://github.com/Sanchitrana448/docmind-ai) · [Live demo](https://docmind-ai-8uct.onrender.com) · ![tests](https://github.com/Sanchitrana448/docmind-ai/actions/workflows/ci.yml/badge.svg)
@@ -54,4 +54,4 @@ Every project has a live demo, CI on every push, and a one-command evaluation th
 
 ## Tools
 
-`Python` · `FastAPI` · `scikit-learn` · `Tesseract OCR` · `Docker` · `GitHub Actions` · `pytest`
+`Python` · `FastAPI` · `Qdrant` · `ONNX Runtime` · `scikit-learn` · `Tesseract OCR` · `Docker` · `GitHub Actions` · `pytest`
